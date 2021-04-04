@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import telebot
 import json
+import time
 import pytesseract
 from PIL import Image
 TELEGRAM_TOKEN = "1690021672:AAEN4q4KYP2jJRdRnpSPwOYGXMkfqyqp4m8"
@@ -21,13 +22,12 @@ def echo_all(message):
         new_file.write(downloaded_file)
     image = Image.open(path)
     t = pytesseract.image_to_string(image)
-    print(t)
     url = "https://gateway.chegg.com/se-search-bff/graphql"
     payload = json.dumps({
         "operationName": "getSearchResults",
         "variables": {
             "profile": "study-decks-intent-srp",
-            "query": "A table-tennis ball is released near the surface of the (airless) moon with velocity v0 = (0, 8.5, −3) m/s. It accelerates (downward) with acceleration a = (2.3, 0, −3.6) m/s2. Find its velocity after 10 s.",
+            "query": t,
             "page": 1,
             "experiments": "|",
             "seasonOverride": ""
@@ -51,9 +51,12 @@ def echo_all(message):
     }
 
     response = requests.request("POST", url, headers=headers, data=payload).text
+    time.sleep(3)
+    rt = str(time.clock())
+    mma = rt.split(".")[0]
     m = json.loads(response)
     for i in m['data']['search']['study']['responseContent']['docs']:
         nn = i['url']
         us = "https://www.chegg.com" + nn
-        bot.reply_to(message, "Links with similar question")
+        bot.reply_to(message, "Links 📍🌐 :\n\n"+nn+"\n\n ⏱ Time : "+str(mma))
 bot.polling()
