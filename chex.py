@@ -6,7 +6,7 @@ import pytesseract
 from PIL import Image
 TELEGRAM_TOKEN = "1690021672:AAEN4q4KYP2jJRdRnpSPwOYGXMkfqyqp4m8"
 bot = telebot.TeleBot(TELEGRAM_TOKEN, parse_mode=None)
-pytesseract.pytesseract.tesseract_cmd = r'/app/.apt/usr/bin/tesseract'
+pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
     bot.reply_to(message, "اهلا وسهلا بك ارسل رابط السؤال")
