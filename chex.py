@@ -6,7 +6,7 @@ import json
 import time
 import pytesseract
 from PIL import Image
-TELEGRAM_TOKEN = "1690021672:AAEN4q4KYP2jJRdRnpSPwOYGXMkfqyqp4m8"
+TELEGRAM_TOKEN = "1700323195:AAHFdOVNMCvjnFyN9Dqpt-QSyHlGih8ybUg"
 bot = telebot.TeleBot(TELEGRAM_TOKEN, parse_mode=None)
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
