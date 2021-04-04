@@ -1,19 +1,20 @@
 import requests
 from bs4 import BeautifulSoup
 import telebot
+import re
 import json
 import time
 import pytesseract
 from PIL import Image
 TELEGRAM_TOKEN = "1690021672:AAEN4q4KYP2jJRdRnpSPwOYGXMkfqyqp4m8"
 bot = telebot.TeleBot(TELEGRAM_TOKEN, parse_mode=None)
-
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-    bot.reply_to(message, "اهلا وسهلا بك ارسل رابط السؤال")
+    bot.reply_to(message, "ارسل صورة السؤال وسيتم الرد عليك بالروابط 👍💕\nمرحبا بك في بوت استخراج رابط السؤال او روابط مشابهة للسؤال عن طريق موقع Chegg 🛡📍")
 
 @bot.message_handler(content_types=['photo'])
 def echo_all(message):
+    bot.reply_to(message, "Wait to Send Links 🕺✌🏿")
     raw = message.photo[-1].file_id
     path = raw+'.jpg'
     file_info = bot.get_file(raw)
@@ -22,12 +23,13 @@ def echo_all(message):
         new_file.write(downloaded_file)
     image = Image.open(path)
     t = pytesseract.image_to_string(image)
+    c=re.sub('\s+', ' ', t)
     url = "https://gateway.chegg.com/se-search-bff/graphql"
     payload = json.dumps({
         "operationName": "getSearchResults",
         "variables": {
             "profile": "study-decks-intent-srp",
-            "query": t,
+            "query": f"{c}",
             "page": 1,
             "experiments": "|",
             "seasonOverride": ""
@@ -51,12 +53,11 @@ def echo_all(message):
     }
 
     response = requests.request("POST", url, headers=headers, data=payload).text
-    time.sleep(3)
     rt = str(time.clock())
     mma = rt.split(".")[0]
     m = json.loads(response)
     for i in m['data']['search']['study']['responseContent']['docs']:
         nn = i['url']
         us = "https://www.chegg.com" + nn
-        bot.reply_to(message, "Links 📍🌐 :\n\n"+nn+"\n\n ⏱ Time : "+str(mma))
+        bot.reply_to(message, "Links 📍🌐 :\n\n"+us+"\n\n ⏱ Time : "+str(mma)+"\n\nBy Eng Mahmoud Fadhil 🛡 @eng2028")
 bot.polling()
