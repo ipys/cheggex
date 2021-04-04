@@ -10,7 +10,7 @@ TELEGRAM_TOKEN = "1690021672:AAEN4q4KYP2jJRdRnpSPwOYGXMkfqyqp4m8"
 bot = telebot.TeleBot(TELEGRAM_TOKEN, parse_mode=None)
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-    bot.reply_to(message, "ارسل صورة السؤال وسيتم الرد عليك بالروابط 👍💕\nمرحبا بك في بوت استخراج رابط السؤال او روابط مشابهة للسؤال عن طريق موقع Chegg 🛡📍")
+    bot.reply_to(message, "احتمال كبير اول رابطين يكون هو السؤال نفسه اللي بالصورة\nارسل صورة السؤال وسيتم الرد عليك بالروابط 👍💕\n بوت استخراج رابط السؤال او روابط مشابهة للسؤال عن طريق موقع Chegg 🛡📍")
 
 @bot.message_handler(content_types=['photo'])
 def echo_all(message):
@@ -59,5 +59,5 @@ def echo_all(message):
     for i in m['data']['search']['study']['responseContent']['docs']:
         nn = i['url']
         us = "https://www.chegg.com" + nn
-        bot.reply_to(message, "Links 📍🌐 :\n\n"+us+"\n\n ⏱ Time : "+str(mma)+"\n\nBy Eng Mahmoud Fadhil 🛡 @eng2028")
+        bot.reply_to(message, "Links 📍🌐 :\n\n"+us+"\n\n ⏱ Time : "+str(mma)+"\n\nBy Eng Mahmoud Fadhil 🛡 @eng2028\n\nGo to bot to get solution @Chegg_1 ✅✅\n\nBest Wishes")
 bot.polling()
